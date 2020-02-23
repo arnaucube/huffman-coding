@@ -90,3 +90,43 @@ func buildTree(nodes []*Node) *Node {
 	}
 	return nodes[0]
 }
+
+func descendTable(n *Node, path string, table map[byte]string) map[byte]string {
+	if n.typ == MID {
+		table = descendTable(n.l, path+"0", table)
+		table = descendTable(n.r, path+"1", table)
+	} else if n.typ == LEAF {
+		table[n.leaf] = path
+	}
+	return table
+}
+
+func generateTable(n *Node) map[byte]string {
+	table := make(map[byte]string)
+	table = descendTable(n, "", table)
+	return table
+}
+
+func Huffman(b []byte) error {
+	// compute frequencies
+	values := make(map[byte]int64)
+	for _, v := range b {
+		values[v]++
+	}
+	leafs := leafsFromValues(values)
+
+	// sort frequencies
+	sortedLeafs := sortNodes(leafs)
+
+	// build binary tree
+	n := buildTree(sortedLeafs)
+	fmt.Println(n)
+
+	// get the table (binary code for each value)
+	table := generateTable(n)
+	fmt.Println(table)
+
+	// WIP
+
+	return nil
+}
