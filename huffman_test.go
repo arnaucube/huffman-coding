@@ -1,6 +1,7 @@
 package huffman
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 
@@ -49,6 +50,12 @@ func TestBuildTree0(t *testing.T) {
 	assert.Equal(t, int64(2), n.r.l.l.key)
 	assert.Equal(t, int64(3), n.r.l.r.key)
 	assert.Equal(t, int64(6), n.r.r.key)
+
+	w := bytes.NewBufferString("")
+	printTree(w, n)
+	if debug {
+		fmt.Println(w)
+	}
 }
 
 func TestBuildTree1(t *testing.T) {
@@ -68,6 +75,12 @@ func TestBuildTree1(t *testing.T) {
 	assert.Equal(t, int64(58), n.key)
 	assert.Equal(t, int64(25), n.l.key)
 	assert.Equal(t, int64(33), n.r.key)
+
+	w := bytes.NewBufferString("")
+	printTree(w, n)
+	if debug {
+		fmt.Println(w)
+	}
 }
 
 func TestGenerateTable(t *testing.T) {
